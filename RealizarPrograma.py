@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import mysql.connector
 
 class Ui_RealizarPrograma(object):
     def setupUi(self, RealizarPrograma):
@@ -29,10 +29,6 @@ class Ui_RealizarPrograma(object):
         font.setWeight(75)
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_3.setGeometry(QtCore.QRect(130, 30, 221, 20))
-        self.lineEdit_3.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.lineEdit_3.setObjectName("lineEdit_3")
         self.lineEdit_4 = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_4.setGeometry(QtCore.QRect(130, 70, 221, 20))
         self.lineEdit_4.setStyleSheet("background-color: rgb(255, 255, 255);")
@@ -197,12 +193,25 @@ class Ui_RealizarPrograma(object):
         font.setWeight(75)
         self.pushButton_4.setFont(font)
         self.pushButton_4.setObjectName("pushButton_4")
+        self.comboBox_semestre = QtWidgets.QComboBox(self.centralwidget)
+        self.comboBox_semestre.setGeometry(QtCore.QRect(130, 30, 221, 22))
+        self.comboBox_semestre.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.comboBox_semestre.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.comboBox_semestre.setObjectName("comboBox_semestre")
+        self.comboBox_semestre.addItem("")
+        self.comboBox_semestre.addItem("")
         RealizarPrograma.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(RealizarPrograma)
         QtCore.QMetaObject.connectSlotsByName(RealizarPrograma)
         
         self.pushButton_3.clicked.connect(lambda:self.regresar(RealizarPrograma))
+        
+        # Connect the button click event to the guardar_datos method
+        self.pushButton_4.clicked.connect(self.guardar_datos)
+        
+        # List of QLineEdit widgets
+        self.line_edits = [self.comboBox_semestre, self.lineEdit_4, self.lineEdit_5, self.lineEdit_6]
         
     def regresar(self, main_window):
         from ElaborarProgramadeMantenimientoPreventivo import Ui_MainWindow as Ui_ElaborarProgramaDeMantenimiento
@@ -212,10 +221,47 @@ class Ui_RealizarPrograma(object):
         ui.setupUi(self.back_window)
         self.back_window.show()
         main_window.close()
+        
+    def guardar_datos(self):
+        # Obtener datos de los QLineEdit
+        semestre = self.comboBox_semestre.currentText()
+        elaboro = self.lineEdit_4.text()
+        anio = self.lineEdit_5.text()
+        aprobo = self.lineEdit_6.text()
+
+        # Obtener datos de los QDateEdit
+        fecha_aprobacion = self.dateEdit_3.date().toString(QtCore.Qt.ISODate)
+
+        # Configurar la conexión a la base de datos
+        try:
+            connection = mysql.connector.connect(
+                host='localhost',
+                user='root',
+                password='',
+                database='sistema_administrativo'
+            )
+
+            cursor = connection.cursor()
+
+            # Ejecutar la consulta de inserción
+            insert_query = "INSERT INTO programas_realizados (Semestre, Año, Fecha, Elaboro, Aprobo) " \
+                           "VALUES (%s, %s, %s, %s, %s)"
+            data = (semestre, anio, fecha_aprobacion, elaboro, aprobo)
+            cursor.execute(insert_query, data)
+
+            # Confirmar la transacción y cerrar la conexión
+            connection.commit()
+            connection.close()
+
+            print("Datos guardados correctamente en la base de datos.")
+
+        except Exception as e:
+            print("Error al intentar guardar los datos:", str(e))
+
 
     def retranslateUi(self, RealizarPrograma):
         _translate = QtCore.QCoreApplication.translate
-        RealizarPrograma.setWindowTitle(_translate("RealizarPrograma", "Realizar Programa"))
+        RealizarPrograma.setWindowTitle(_translate("RealizarPrograma", "Realizar Programa de Mantenimiento"))
         self.label_4.setText(_translate("RealizarPrograma", "Semestre:"))
         self.label_5.setText(_translate("RealizarPrograma", "Elaboró:"))
         self.label_6.setText(_translate("RealizarPrograma", "Año:"))
@@ -254,6 +300,8 @@ class Ui_RealizarPrograma(object):
         item.setText(_translate("RealizarPrograma", "Dic"))
         self.pushButton_3.setText(_translate("RealizarPrograma", "Regresar"))
         self.pushButton_4.setText(_translate("RealizarPrograma", "Guardar y Generar Reporte"))
+        self.comboBox_semestre.setItemText(0, _translate("RealizarPrograma", "Enero - Junio"))
+        self.comboBox_semestre.setItemText(1, _translate("RealizarPrograma", "Agosto - Diciembre"))
         
         # List of QDateEdit widgets
         date_edit_widgets = [self.dateEdit_2, self.dateEdit_3]

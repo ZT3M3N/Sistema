@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
 from reportlab.pdfgen import canvas
 from PyPDF2 import PdfReader, PdfWriter
+from PyQt5.QtWidgets import QFileDialog
 import io
 
 
@@ -185,13 +186,23 @@ class Ui_AsignarOrdenDeTrabajo(object):
         trabajo_realizado = self.plainTextEdit.toPlainText()
         verificado_por = self.lineEdit_9.text()
         aprobado_por = self.lineEdit_11.text()
+        
+        # Obtener la ruta y el nombre del archivo mediante un cuadro de diálogo
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        pdf_new_path, _ = QFileDialog.getSaveFileName(self.centralwidget, "Guardar PDF", "", "Archivos PDF (*.pdf);;Todos los archivos (*)", options=options)
+        
+        # Verificar si el usuario canceló la operación
+        if pdf_new_path:
+        # Generar el PDF
+            self.generar_pdf(n_control, tipo_mantenimiento, tipo_servicio, asignado_a, fecha, trabajo_realizado, verificado_por, aprobado_por, pdf_new_path)
 
         # Conectar a la base de datos
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
             password="",
-            database="sistema-administrativo"
+            database="sistema_administrativo"
         )
 
         cursor = connection.cursor()
@@ -214,14 +225,11 @@ class Ui_AsignarOrdenDeTrabajo(object):
         connection.close()
         
         # Generar PDF
-        self.generar_pdf(n_control, tipo_mantenimiento, tipo_servicio, asignado_a, fecha, trabajo_realizado, verificado_por, aprobado_por)
+        self.generar_pdf(n_control, tipo_mantenimiento, tipo_servicio, asignado_a, fecha, trabajo_realizado, verificado_por, aprobado_por, pdf_new_path)
         
-    def generar_pdf(self, n_control, tipo_mantenimiento, tipo_servicio, asignado_a, fecha, trabajo_realizado, verificado_por, aprobado_por):
+    def generar_pdf(self, n_control, tipo_mantenimiento, tipo_servicio, asignado_a, fecha, trabajo_realizado, verificado_por, aprobado_por, pdf_new_path):
         # Ruta del archivo PDF existente
-        pdf_existing_path = "C:\\Users\\stejo\\OneDrive\\Escritorio\\Administrativo\\TecNM-AD-PO-001-04.pdf"
-
-        # Ruta del nuevo archivo PDF que se generará
-        pdf_new_path = "C:\\Users\\stejo\\OneDrive\\Escritorio\\Administrativo\\Ordenes_Asignadas.pdf"
+        pdf_existing_path = "FORMATOS/TecNM-AD-PO-001-04.pdf"
 
         # Crear un objeto PdfWriter para el nuevo archivo PDF
         pdf_writer = PdfWriter()

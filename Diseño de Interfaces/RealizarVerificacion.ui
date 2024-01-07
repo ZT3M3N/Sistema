@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1127</width>
-    <height>667</height>
+    <width>1129</width>
+    <height>672</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@ QPushButton{
      <rect>
       <x>30</x>
       <y>37</y>
-      <width>261</width>
+      <width>161</width>
       <height>31</height>
      </rect>
     </property>
@@ -39,15 +39,15 @@ QPushButton{
      </font>
     </property>
     <property name="text">
-     <string>Jefe(a) del departamento de:</string>
+     <string>Departamento de:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>640</x>
       <y>77</y>
-      <width>261</width>
+      <width>231</width>
       <height>31</height>
      </rect>
     </property>
@@ -65,22 +65,9 @@ QPushButton{
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>291</x>
-      <y>41</y>
-      <width>201</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>87</y>
-      <width>201</width>
+      <x>365</x>
+      <y>85</y>
+      <width>231</width>
       <height>20</height>
      </rect>
     </property>
@@ -108,7 +95,7 @@ QPushButton{
      <string>Fecha:</string>
     </property>
    </widget>
-   <widget class="QDateEdit" name="dateEdit">
+   <widget class="QDateEdit" name="fechador">
     <property name="geometry">
      <rect>
       <x>970</x>
@@ -195,7 +182,7 @@ QPushButton{
      </property>
     </column>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="boton_regresar">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -215,7 +202,7 @@ QPushButton{
      <string>Regresar</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="boton_guardar">
     <property name="geometry">
      <rect>
       <x>640</x>
@@ -232,8 +219,66 @@ QPushButton{
      </font>
     </property>
     <property name="text">
-     <string>Guardar</string>
+     <string>Guardar y Generar Reporte</string>
     </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>80</y>
+      <width>331</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Nombre del jefe(a) del departamento:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>85</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_departamento">
+    <property name="geometry">
+     <rect>
+      <x>198</x>
+      <y>44</y>
+      <width>221</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Recursos Materiales y Sevicios</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Cómputo</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Mantenimiento</string>
+     </property>
+    </item>
    </widget>
   </widget>
  </widget>

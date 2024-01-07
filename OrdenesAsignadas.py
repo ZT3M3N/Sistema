@@ -83,7 +83,7 @@ class Ui_OrdenesDeTrabajoAsignadas(object):
             host="localhost",
             user="root",
             password="",
-            database="sistema-administrativo"
+            database="sistema_administrativo"
         )
 
         cursor = connection.cursor()

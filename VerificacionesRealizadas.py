@@ -78,7 +78,7 @@ class Ui_VerificacionesRealizadas(object):
         connection = pymysql.connect(host='localhost',
                                      user='root',
                                      password='',
-                                     database='sistema-administrativo',
+                                     database='sistema_administrativo',
                                      charset='utf8mb4',
                                      cursorclass=pymysql.cursors.DictCursor)
 

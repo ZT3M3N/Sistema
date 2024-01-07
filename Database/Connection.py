@@ -6,7 +6,7 @@ def connection():
         user = "root",
         password = "",
         port = 3306,
-        db = "sistema-administrativo"
+        db = "sistema_administrativo"
     )
     print("DB connectec")
     return conn

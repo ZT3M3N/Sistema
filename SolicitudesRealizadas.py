@@ -63,7 +63,7 @@ class Ui_SolicitudesRealizadas(object):
             host="localhost",
             user="root",
             password="",
-            database="sistema-administrativo"
+            database="sistema_administrativo"
         )
         cursor = db_connection.cursor()
 

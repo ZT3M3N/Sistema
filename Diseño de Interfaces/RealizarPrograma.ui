@@ -62,19 +62,6 @@ QPushButton{
      <string>Elaboró:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>30</y>
-      <width>221</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="lineEdit_4">
     <property name="geometry">
      <rect>
@@ -450,6 +437,32 @@ QPushButton{
     <property name="text">
      <string>Guardar</string>
     </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_semestre">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>30</y>
+      <width>221</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>Enero - Junio</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Agosto - Diciembre</string>
+     </property>
+    </item>
    </widget>
   </widget>
  </widget>

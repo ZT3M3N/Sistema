@@ -116,7 +116,7 @@ class Ui_registro(object):
             host="localhost",
             user="root",
             password="",
-            database="sistema-administrativo"
+            database="sistema_administrativo"
         )
 
         # Create a cursor object to execute SQL queries
@@ -147,14 +147,21 @@ class Ui_registro(object):
             # Retrieve data from the form
             username = self.user.text()
             password = self.password.text()
-            user_type = self.comboBox.currentText()
+            user_type_text = self.comboBox.currentText()
+            
+            # Map user_type_text to the corresponding id_rol
+            user_type_mapping = {"Administrador": 1, "Técnico": 2, "Departamento": 3}
+            user_type = user_type_mapping.get(user_type_text, None)
+
+            if user_type is None:
+                raise ValueError("Tipo de usuario no válido")
 
             # Create a connection to your MySQL database
             db_connection = mysql.connector.connect(
                 host="localhost",
                 user="root",
                 password="",
-                database="sistema-administrativo"
+                database="sistema_administrativo"
             )
 
             # Create a cursor object to execute SQL queries
@@ -186,6 +193,7 @@ class Ui_registro(object):
         except Exception as e:
                 # Handle the exception (e.g., show an error message)
             print(f"Error: {e}")
+            
     # Method to redirect to the Ui_Login class
     def redirect_to_login(self):
             # Create an instance of the Ui_Login class

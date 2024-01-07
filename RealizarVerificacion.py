@@ -2,13 +2,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
 from reportlab.pdfgen import canvas
 from PyPDF2 import PdfReader, PdfWriter
+from PyQt5.QtWidgets import QFileDialog
 import io
-
 
 class Ui_RealizarVerificacion(object):
     def setupUi(self, RealizarVerificacion):
         RealizarVerificacion.setObjectName("RealizarVerificacion")
-        RealizarVerificacion.resize(1127, 667)
+        RealizarVerificacion.resize(1129, 672)
         RealizarVerificacion.setStyleSheet("QWidget{\n"
 "    background-color: rgb(85, 170, 255);\n"
 "}\n"
@@ -18,7 +18,7 @@ class Ui_RealizarVerificacion(object):
         self.centralwidget = QtWidgets.QWidget(RealizarVerificacion)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(30, 37, 261, 31))
+        self.label.setGeometry(QtCore.QRect(30, 37, 161, 31))
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
@@ -26,7 +26,7 @@ class Ui_RealizarVerificacion(object):
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(30, 77, 261, 31))
+        self.label_2.setGeometry(QtCore.QRect(640, 77, 231, 31))
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
@@ -34,13 +34,9 @@ class Ui_RealizarVerificacion(object):
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(291, 41, 201, 20))
+        self.lineEdit.setGeometry(QtCore.QRect(365, 85, 231, 20))
         self.lineEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_2.setGeometry(QtCore.QRect(290, 87, 201, 20))
-        self.lineEdit_2.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.lineEdit_2.setObjectName("lineEdit_2")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(909, 37, 61, 31))
         font = QtGui.QFont()
@@ -49,10 +45,10 @@ class Ui_RealizarVerificacion(object):
         font.setWeight(75)
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
-        self.dateEdit = QtWidgets.QDateEdit(self.centralwidget)
-        self.dateEdit.setGeometry(QtCore.QRect(970, 40, 110, 22))
-        self.dateEdit.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.dateEdit.setObjectName("dateEdit")
+        self.fechador = QtWidgets.QDateEdit(self.centralwidget)
+        self.fechador.setGeometry(QtCore.QRect(970, 40, 110, 22))
+        self.fechador.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.fechador.setObjectName("fechador")
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(30, 150, 1051, 411))
         self.tableWidget.setStyleSheet("background-color: rgb(255, 255, 255);")
@@ -82,85 +78,105 @@ class Ui_RealizarVerificacion(object):
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
         self.tableWidget.horizontalHeader().setDefaultSectionSize(334)
         self.tableWidget.horizontalHeader().setSortIndicatorShown(False)
-        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(30, 600, 441, 28))
+        self.boton_regresar = QtWidgets.QPushButton(self.centralwidget)
+        self.boton_regresar.setGeometry(QtCore.QRect(30, 600, 441, 28))
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.pushButton_4.setFont(font)
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_5.setGeometry(QtCore.QRect(640, 600, 441, 28))
+        self.boton_regresar.setFont(font)
+        self.boton_regresar.setObjectName("boton_regresar")
+        self.boton_guardar = QtWidgets.QPushButton(self.centralwidget)
+        self.boton_guardar.setGeometry(QtCore.QRect(640, 600, 441, 28))
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
-        self.pushButton_5.setFont(font)
-        self.pushButton_5.setObjectName("pushButton_5")
+        self.boton_guardar.setFont(font)
+        self.boton_guardar.setObjectName("boton_guardar")
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(30, 80, 331, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_4.setFont(font)
+        self.label_4.setObjectName("label_4")
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_2.setGeometry(QtCore.QRect(880, 85, 201, 20))
+        self.lineEdit_2.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.comboBox_departamento = QtWidgets.QComboBox(self.centralwidget)
+        self.comboBox_departamento.setGeometry(QtCore.QRect(198, 44, 221, 22))
+        self.comboBox_departamento.setObjectName("comboBox_departamento")
+        self.comboBox_departamento.addItem("")
+        self.comboBox_departamento.addItem("")
+        self.comboBox_departamento.addItem("")
         RealizarVerificacion.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(RealizarVerificacion)
         QtCore.QMetaObject.connectSlotsByName(RealizarVerificacion)
         
-        self.pushButton_4.clicked.connect(lambda:self.regresar(RealizarVerificacion))
+        self.boton_regresar.clicked.connect(lambda:self.regresar(RealizarVerificacion))
         
-        self.pushButton_5.clicked.connect(lambda: self.guardar_datos())
+        self.boton_guardar.clicked.connect(lambda: self.guardar_datos())
         
-
         
     def regresar(self, main_window):
-        from VerificarInfraestructura import Ui_MainWindow as Ui_VerificarInfraestructura
+            from VerificarInfraestructura import Ui_MainWindow as Ui_VerificarInfraestructura
         # Abre la ventana de servicios utilizando la referencia a la clase Ui_ServiciosAdmin
-        self.back_window = QtWidgets.QMainWindow()
-        ui = Ui_VerificarInfraestructura()
-        ui.setupUi(self.back_window)
-        self.back_window.show()
-        main_window.close()
-        
+            self.back_window = QtWidgets.QMainWindow()
+            ui = Ui_VerificarInfraestructura()
+            ui.setupUi(self.back_window)
+            self.back_window.show()
+            main_window.close()
+            
     def guardar_datos(self):
     # Obtener datos de la interfaz
+        departamento = self.comboBox_departamento.currentText()
         jefe_departamento = self.lineEdit.text()
         jefe_area = self.lineEdit_2.text()
-        fecha = self.dateEdit.date().toString("yyyy-MM-dd")
-        espacio_revisado = self.obtener_texto_celda(0, 0)  # Ejemplo, obtén el texto de una celda de la tabla
-        hallazgos = self.obtener_texto_celda(0, 1)  # Ejemplo, obtén el texto de una celda de la tabla
-        atendido = "Sí" if self.obtener_estado_atendido(0, 2) == "Sí" else "No"
-        
+        fecha = self.fechador.date().toString("yyyy-MM-dd")
+        espacio_revisado = self.obtener_texto_celda(0, 0)
+        hallazgos = self.obtener_texto_celda(0, 1)
+        atendido = "No" if self.obtener_estado_atendido(0, 2) == "Si" else "No"
 
+    # Obtener la ruta y el nombre del archivo mediante un cuadro de diálogo
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        pdf_new_path, _ = QFileDialog.getSaveFileName(self.centralwidget, "Guardar PDF", "", "Archivos PDF (*.pdf);;Todos los archivos (*)", options=options)
+
+    # Verificar si el usuario canceló la operación
+        if pdf_new_path:
+        # Generar el PDF
+            self.generar_pdf(departamento, jefe_departamento, jefe_area, fecha, espacio_revisado, hallazgos, atendido, pdf_new_path)
         
     # Conectar a la base de datos
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
             password="",
-            database="sistema-administrativo"
+            database="sistema_administrativo"
     )
 
         cursor = connection.cursor()
 
     # Insertar datos en la tabla infraestructura_y_equipo
         query = ("INSERT INTO infraestructura_y_equipo "
-          "(jefe_departamento, jefe_area, fecha, espacio_revisado, hallazgos, atendido) "
-             "VALUES (%s, %s, %s, %s, %s, %s)")
-        data = (jefe_departamento, jefe_area, fecha, espacio_revisado, hallazgos, atendido)
+          "(departamento_responsable, jefe_area, jefe_departamento, fecha, espacio_revisado, hallazgos, atendido) "
+             "VALUES (%s, %s, %s, %s, %s, %s, %s)")
+        data = (departamento, jefe_departamento, jefe_area, fecha, espacio_revisado, hallazgos, atendido)
 
         cursor.execute(query, data)
         connection.commit()
-        
-        # Generar el PDF
-        self.generar_pdf(jefe_departamento, jefe_area, fecha, espacio_revisado, hallazgos, atendido)
 
     # Cerrar la conexión
         cursor.close()
         connection.close()
         
-    def generar_pdf(self, jefe_departamento, jefe_area, fecha, espacio_revisado, hallazgos, atendido):
+    def generar_pdf(self, departamento, jefe_departamento, jefe_area, fecha, espacio_revisado, hallazgos, atendido, pdf_new_path):
         # Ruta del nuevo archivo PDF que se generará
-        pdf_existing_path = "C:\\Users\\stejo\\OneDrive\\Escritorio\\Administrativo\\TecNM-AD-PO-001-01.pdf"
-
-        # Ruta del nuevo archivo PDF que se generará
-        pdf_new_path = "C:\\Users\\stejo\\OneDrive\\Escritorio\\Administrativo\\Realizar_Verificacion.pdf"
+        pdf_existing_path = "Formatos/TecNM-AD-PO-001-01.pdf"
 
         # Crear un objeto PdfWriter para el nuevo archivo PDF
         pdf_writer = PdfWriter()
@@ -178,12 +194,14 @@ class Ui_RealizarVerificacion(object):
             can = canvas.Canvas(packet, pagesize=(612, 792))
 
             # Aquí es donde puedes agregar tu contenido al lienzo
-            can.drawString(350, 648,jefe_departamento)
+            can.drawString(350, 648,departamento)
             can.drawString(350, 630,jefe_area)
             can.drawString(535, 603,fecha)
             can.drawString(75, 555,espacio_revisado)
             can.drawString(205, 555,hallazgos)
             can.drawString(500, 555,atendido)
+            can.drawString(300, 135,jefe_departamento)
+            can.drawString(300, 110,jefe_area)
 
             # Guardar el lienzo en el paquete
             can.save()
@@ -219,13 +237,11 @@ class Ui_RealizarVerificacion(object):
         if item is not None:
             return item.text()
         return ""
-    
-   
 
     def retranslateUi(self, RealizarVerificacion):
         _translate = QtCore.QCoreApplication.translate
         RealizarVerificacion.setWindowTitle(_translate("RealizarVerificacion", "Realizar Verificación"))
-        self.label.setText(_translate("RealizarVerificacion", "Jefe(a) del departamento de:"))
+        self.label.setText(_translate("RealizarVerificacion", "Departamento de:"))
         self.label_2.setText(_translate("RealizarVerificacion", "Jefe(a) del área verificada:"))
         self.label_3.setText(_translate("RealizarVerificacion", "Fecha:"))
         item = self.tableWidget.horizontalHeaderItem(0)
@@ -234,12 +250,17 @@ class Ui_RealizarVerificacion(object):
         item.setText(_translate("RealizarVerificacion", "Hallazgos"))
         item = self.tableWidget.horizontalHeaderItem(2)
         item.setText(_translate("RealizarVerificacion", "Atendido"))
-        self.pushButton_4.setText(_translate("RealizarVerificacion", "Regresar"))
-        self.pushButton_5.setText(_translate("RealizarVerificacion", "Guardar y Generar Reporte"))
+        self.boton_regresar.setText(_translate("RealizarVerificacion", "Regresar"))
+        self.boton_guardar.setText(_translate("RealizarVerificacion", "Guardar y Generar Reporte"))
+        self.label_4.setText(_translate("RealizarVerificacion", "Nombre del jefe(a) del departamento:"))
+        self.comboBox_departamento.setItemText(0, _translate("RealizarVerificacion", "Recursos Materiales y Sevicios"))
+        self.comboBox_departamento.setItemText(1, _translate("RealizarVerificacion", "Cómputo"))
+        self.comboBox_departamento.setItemText(2, _translate("RealizarVerificacion", "Mantenimiento"))
         
         # List of QDateEdit widgets
-        date_edit_widgets = [self.dateEdit]
-
+        self.comboBox_departamento.setItemText(1, _translate("RealizarVerificacion", "Cómputo"))
+        date_edit_widgets = [self.fechador]
+        self.comboBox_departamento.setItemText(2, _translate("RealizarVerificacion", "Mantenimiento"))
         # Set the default date to the current date for all QDateEdit widgets
         for date_edit in date_edit_widgets:
             date_edit.setDate(QtCore.QDate.currentDate())

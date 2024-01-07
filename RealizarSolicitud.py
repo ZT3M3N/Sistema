@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
 from reportlab.pdfgen import canvas
 from PyPDF2 import PdfReader, PdfWriter
+from PyQt5.QtWidgets import QFileDialog
 import io
 
 class Ui_RealizarSolicitud(object):
@@ -134,13 +135,23 @@ class Ui_RealizarSolicitud(object):
         nombre_y_firma = self.lineEdit_15.text()
         fecha = self.dateEdit_7.date().toString("yyyy-MM-dd")
         descripcion_problema = self.textEdit_2.toPlainText()
+        
+        # Obtener la ruta y el nombre del archivo mediante un cuadro de diálogo
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        pdf_new_path, _ = QFileDialog.getSaveFileName(self.centralwidget, "Guardar PDF", "", "Archivos PDF (*.pdf);;Todos los archivos (*)", options=options)
+
+    # Verificar si el usuario canceló la operación
+        if pdf_new_path:
+        # Generar el PDF
+            self.generar_pdf(folio, departamento_dirigido, area_solicitante, nombre_y_firma, fecha, descripcion_problema, pdf_new_path)
 
         # Connect to the database
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
             password="",  # Enter your MySQL password
-            database="sistema-administrativo"
+            database="sistema_administrativo"
         )
 
         cursor = connection.cursor()
@@ -159,7 +170,7 @@ class Ui_RealizarSolicitud(object):
         cursor.execute(insert_query, data)
         
         # Generar el PDF
-        self.generar_pdf(folio, departamento_dirigido, area_solicitante, nombre_y_firma, fecha, descripcion_problema)
+        self.generar_pdf(folio, departamento_dirigido, area_solicitante, nombre_y_firma, fecha, descripcion_problema, pdf_new_path)
 
         # Confirm the transaction and close the connection
         connection.commit()
@@ -170,7 +181,7 @@ class Ui_RealizarSolicitud(object):
             host="localhost",
             user="root",
             password="",  # Enter your MySQL password
-            database="sistema-administrativo"
+            database="sistema_administrativo"
             )
         cursor = connection.cursor()
         cursor.execute("SELECT MAX(id) + 1 FROM solicitud_mantenimiento")
@@ -178,12 +189,9 @@ class Ui_RealizarSolicitud(object):
         connection.close()
         return next_id if next_id is not None else 1
         
-    def generar_pdf(self, folio, departamento_dirigido, area_solicitante, nombre_y_firma, fecha, descripcion_problema):
+    def generar_pdf(self, folio, departamento_dirigido, area_solicitante, nombre_y_firma, fecha, descripcion_problema, pdf_new_path):
         # Ruta del archivo PDF existente
-        pdf_existing_path = "C:\\Users\\stejo\\OneDrive\\Escritorio\\Administrativo\\TecNM-AD-PO-001-02.pdf"
-
-        # Ruta del nuevo archivo PDF que se generará
-        pdf_new_path = "C:\\Users\\stejo\\OneDrive\\Escritorio\\Administrativo\\Solicitudes_Realizadas.pdf"
+        pdf_existing_path = "FORMATOS/TecNM-AD-PO-001-02.pdf"
 
         # Crear un objeto PdfWriter para el nuevo archivo PDF
         pdf_writer = PdfWriter()
