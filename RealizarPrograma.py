@@ -1,5 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
+from reportlab.pdfgen import canvas
+from PyPDF2 import PdfReader, PdfWriter
+from PyQt5.QtWidgets import QFileDialog
+import io
 
 class Ui_RealizarPrograma(object):
     def setupUi(self, RealizarPrograma):
@@ -222,6 +226,13 @@ class Ui_RealizarPrograma(object):
         self.back_window.show()
         main_window.close()
         
+    def obtener_texto_celda(self, fila, columna):
+    # Obtener texto de una celda de la tabla
+        item = self.tableWidget_3.item(fila, columna)
+        if item is not None:
+            return item.text()
+        return ""
+        
     def guardar_datos(self):
         # Obtener datos de los QLineEdit
         semestre = self.comboBox_semestre.currentText()
@@ -230,7 +241,22 @@ class Ui_RealizarPrograma(object):
         aprobo = self.lineEdit_6.text()
 
         # Obtener datos de los QDateEdit
-        fecha_aprobacion = self.dateEdit_3.date().toString(QtCore.Qt.ISODate)
+        fecha_aprobacion = self.dateEdit_3.date().toString("yyyy-MM-dd")
+        
+        numero = self.obtener_texto_celda(0,0)
+        servicio = self.obtener_texto_celda(0,1)
+        tipo = self.obtener_texto_celda(0,2)
+        Ee = self.obtener_texto_celda(0,3)
+        
+        # Obtener la ruta y el nombre del archivo mediante un cuadro de diálogo
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        pdf_new_path, _ = QFileDialog.getSaveFileName(self.centralwidget, "Guardar PDF", "", "Archivos PDF (*.pdf);;Todos los archivos (*)", options=options)
+
+    # Verificar si el usuario canceló la operación
+        if pdf_new_path:
+        # Generar el PDF
+            self.generar_pdf(semestre, anio, fecha_aprobacion, elaboro, aprobo, numero, servicio, tipo, Ee, pdf_new_path)
 
         # Configurar la conexión a la base de datos
         try:
@@ -244,9 +270,9 @@ class Ui_RealizarPrograma(object):
             cursor = connection.cursor()
 
             # Ejecutar la consulta de inserción
-            insert_query = "INSERT INTO programas_realizados (Semestre, Año, Fecha, Elaboro, Aprobo) " \
-                           "VALUES (%s, %s, %s, %s, %s)"
-            data = (semestre, anio, fecha_aprobacion, elaboro, aprobo)
+            insert_query = "INSERT INTO programas_realizados (Semestre, Año, Fecha, Elaboro, Aprobo, Numero, Servicio, Tipo, E) " \
+                           "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            data = (semestre, anio, fecha_aprobacion, elaboro, aprobo, numero, servicio, tipo, Ee)
             cursor.execute(insert_query, data)
 
             # Confirmar la transacción y cerrar la conexión
@@ -257,6 +283,57 @@ class Ui_RealizarPrograma(object):
 
         except Exception as e:
             print("Error al intentar guardar los datos:", str(e))
+            
+    def generar_pdf(self, semestre, anio, fecha_aprobacion, elaboro, aprobo, numero, servicio, tipo, Ee, pdf_new_path):
+        # Ruta del nuevo archivo PDF que se generará
+        pdf_existing_path = "Formatos/TecNM-AD-PO-001-03.pdf"
+
+        # Crear un objeto PdfWriter para el nuevo archivo PDF
+        pdf_writer = PdfWriter()
+
+        # Leer el archivo PDF existente
+        pdf_reader = PdfReader(pdf_existing_path)
+
+        # Obtener el número de páginas en el PDF existente
+        num_pages = len(pdf_reader.pages)
+
+        # Iterar a través de cada página del PDF existente
+        for page_num in range(num_pages):
+            # Crear un lienzo para la página actual
+            packet = io.BytesIO()
+            can = canvas.Canvas(packet, pagesize=(612, 792))
+
+            # Aquí es donde puedes agregar tu contenido al lienzo
+            can.drawString(155, 465,semestre)
+            can.drawString(435, 465,anio)
+            can.drawString(200, 100,fecha_aprobacion)
+            can.drawString(200, 125,fecha_aprobacion)
+            can.drawString(475, 100,elaboro)
+            can.drawString(475, 125,aprobo)
+            can.drawString(60, 415,numero)
+            can.drawString(90, 415,servicio)
+            can.drawString(295, 420,tipo)
+            can.drawString(400, 420, Ee)
+
+            # Guardar el lienzo en el paquete
+            can.save()
+
+            # Mover el paquete al inicio antes de escribir en el nuevo archivo
+            packet.seek(0)
+
+            # Crear un objeto PdfReader para la página actual
+            new_pdf = PdfReader(packet)
+            page = pdf_reader.pages[page_num]
+
+            # Fusionar el contenido de la página existente con el contenido nuevo
+            page.merge_page(new_pdf.pages[0])
+
+            # Agregar la página fusionada al nuevo archivo PDF
+            pdf_writer.add_page(page)
+
+        # Guardar el nuevo archivo PDF
+        with open(pdf_new_path, "wb") as new_pdf_file:
+            pdf_writer.write(new_pdf_file)
 
 
     def retranslateUi(self, RealizarPrograma):
