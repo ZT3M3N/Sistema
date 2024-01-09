@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-01-2024 a las 01:55:44
+-- Tiempo de generación: 09-01-2024 a las 03:05:57
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -55,14 +55,6 @@ CREATE TABLE `orden_trabajo` (
   `VerificadoPor` varchar(255) NOT NULL,
   `AprobadoPor` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `orden_trabajo`
---
-
-INSERT INTO `orden_trabajo` (`id`, `NControl`, `TipoMantenimiento`, `TipoServicio`, `AsignadoA`, `Fecha`, `TrabajoRealizado`, `VerificadoPor`, `AprobadoPor`) VALUES
-(1, 'sdadasd', 'Externo', 'ogdfogkodf', 'bcbxcbcxvb', '2024-01-06', 'mvkvifgrijjsd', 'MK', '123'),
-(2, '18E20262', 'Interno', 'Cinco peso', 'No sé, tú dime', '2024-01-08', 'Compramos rosquilla de reycitos', 'Melchor, gaspar y baltazar', 'Mi');
 
 -- --------------------------------------------------------
 
@@ -193,13 +185,13 @@ ALTER TABLE `infraestructura_y_equipo`
 -- AUTO_INCREMENT de la tabla `orden_trabajo`
 --
 ALTER TABLE `orden_trabajo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `programas_realizados`
 --
 ALTER TABLE `programas_realizados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
