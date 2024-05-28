@@ -87,10 +87,8 @@ class Ui_registro(object):
         
         self.btn_regresar.clicked.connect(lambda: self.regresar_a_servicios(registro))
 
-
     def regresar_a_servicios(self, main_window):
         from ServiciosAdmin import Ui_ServiciosAdmin
-
         # Abre la ventana de servicios utilizando la referencia a la clase Ui_ServiciosAdmin
         self.servicios_admin_window = QtWidgets.QMainWindow()
         servicios_admin_ui = Ui_ServiciosAdmin()
@@ -98,8 +96,6 @@ class Ui_registro(object):
         self.servicios_admin_window.show()
         main_window.close()
         
-        
-
     def retranslateUi(self, registro):
         _translate = QtCore.QCoreApplication.translate
         registro.setWindowTitle(_translate("registro", "Registro de Usuario"))

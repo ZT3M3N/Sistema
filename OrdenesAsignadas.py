@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector
 
-
 class Ui_OrdenesDeTrabajoAsignadas(object):
     def setupUi(self, OrdenesDeTrabajoAsignadas):
         OrdenesDeTrabajoAsignadas.setObjectName("OrdenesDeTrabajoAsignadas")
@@ -85,7 +84,6 @@ class Ui_OrdenesDeTrabajoAsignadas(object):
             password="",
             database="sistema_administrativo"
         )
-
         cursor = connection.cursor()
 
         select_query = (

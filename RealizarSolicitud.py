@@ -201,6 +201,19 @@ class Ui_RealizarSolicitud(object):
 
         # Obtener el número de páginas en el PDF existente
         num_pages = len(pdf_reader.pages)
+        
+        def dividir_texto(texto, longitud_maxima=30):
+            palabras = texto.split()
+            lineas = []
+            linea_actual = ''
+            for palabra in palabras:
+                if len(linea_actual) + len(palabra) <= longitud_maxima:
+                    linea_actual += ' ' + palabra
+                else:
+                    lineas.append(linea_actual.strip())
+                    linea_actual = palabra
+            lineas.append(linea_actual.strip())
+            return lineas
 
         # Iterar a través de cada página del PDF existente
         for page_num in range(num_pages):
@@ -214,7 +227,12 @@ class Ui_RealizarSolicitud(object):
             can.drawString(160, 545, area_solicitante)
             can.drawString(65, 480, nombre_y_firma)
             can.drawString(65, 435, fecha)
-            can.drawString(65, 375, descripcion_problema)
+            # Iterar sobre las líneas del trabajo realizado y agregarlas al lienzo
+            lineas_problema = dividir_texto(descripcion_problema)
+            y_position = 375
+            for linea in lineas_problema:
+                can.drawString(65, y_position, linea)
+                y_position -= 14  # Incremento fijo para el espaciado entre líneas
 
             # Guardar el lienzo en el paquete
             can.save()

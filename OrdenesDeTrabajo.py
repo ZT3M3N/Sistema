@@ -2,7 +2,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from AsignarOrdenDeTrabajo import Ui_AsignarOrdenDeTrabajo
 from OrdenesAsignadas import Ui_OrdenesDeTrabajoAsignadas
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")

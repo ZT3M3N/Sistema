@@ -59,7 +59,7 @@ class Ui_VerificacionesRealizadas(object):
         
         # Configurar la tabla
         self.tableWidget_2.setColumnCount(3)
-        self.tableWidget_2.setHorizontalHeaderLabels(["Folio", "Departamento verificado", "Jefe del departamento"])
+        self.tableWidget_2.setHorizontalHeaderLabels(["Folio", "Jefe del departamento verificado", "Jefe del departamento"])
 
         # Cargar datos en la tabla
         self.cargar_datos()
@@ -111,7 +111,7 @@ class Ui_VerificacionesRealizadas(object):
         item = self.tableWidget_2.horizontalHeaderItem(0)
         item.setText(_translate("VerificacionesRealizadas", "Folio"))
         item = self.tableWidget_2.horizontalHeaderItem(1)
-        item.setText(_translate("VerificacionesRealizadas", "Departamento verificado"))
+        item.setText(_translate("VerificacionesRealizadas", "Jefe del departamento verificado"))
         item = self.tableWidget_2.horizontalHeaderItem(2)
         item.setText(_translate("VerificacionesRealizadas", "Jefe del departamento"))
         self.pushButton_4.setText(_translate("VerificacionesRealizadas", "Regresar"))

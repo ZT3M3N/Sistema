@@ -1,4 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from RealizarPrograma import Ui_RealizarPrograma
+from ProgramasRealizados import Ui_ProgramasRealizados
 
 
 class Ui_MainWindow(object):
@@ -48,7 +50,35 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+        self.pushButton.clicked.connect(lambda:self.abrir_interfaz_realizarPrograma(MainWindow))
+        
+        self.pushButton_2.clicked.connect(lambda:self.abrir_interfaz_programasRealizados(MainWindow))
+        
+    def abrir_interfaz_realizarPrograma(self, main_window):
+        self.realizarPrograma_window = QtWidgets.QMainWindow()
+        realizarPrograma_ui = Ui_RealizarPrograma()
+        realizarPrograma_ui.setupUi(self.realizarPrograma_window)
+        self.realizarPrograma_window.show()
+        main_window.close()
+        
+    def abrir_interfaz_programasRealizados(self, main_window):
+        self.programasRealizados_window = QtWidgets.QMainWindow()
+        programas_realizados_ui = Ui_ProgramasRealizados()
+        programas_realizados_ui.setupUi(self.programasRealizados_window)
+        self.programasRealizados_window.show()
+        main_window.close()
+        
+    def regresar_a_servicios(self, main_window):
+        from ServiciosAdmin import Ui_ServiciosAdmin
 
+        # Abre la ventana de servicios utilizando la referencia a la clase Ui_ServiciosAdmin
+        self.servicios_admin_window = QtWidgets.QMainWindow()
+        servicios_admin_ui = Ui_ServiciosAdmin()
+        servicios_admin_ui.setupUi(self.servicios_admin_window)
+        self.servicios_admin_window.show()
+        main_window.close()
+        
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Programa de Mantenimiento"))

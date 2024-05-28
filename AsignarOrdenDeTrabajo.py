@@ -5,7 +5,6 @@ from PyPDF2 import PdfReader, PdfWriter
 from PyQt5.QtWidgets import QFileDialog
 import io
 
-
 class Ui_AsignarOrdenDeTrabajo(object):
     def setupUi(self, AsignarOrdenDeTrabajo):
         AsignarOrdenDeTrabajo.setObjectName("AsignarOrdenDeTrabajo")
@@ -239,6 +238,19 @@ class Ui_AsignarOrdenDeTrabajo(object):
 
         # Obtener el número de páginas en el PDF existente
         num_pages = len(pdf_reader.pages)
+        
+        def dividir_texto(texto, longitud_maxima=30):
+            palabras = texto.split()
+            lineas = []
+            linea_actual = ''
+            for palabra in palabras:
+                if len(linea_actual) + len(palabra) <= longitud_maxima:
+                    linea_actual += ' ' + palabra
+                else:
+                    lineas.append(linea_actual.strip())
+                    linea_actual = palabra
+            lineas.append(linea_actual.strip())
+            return lineas
 
         # Iterar a través de cada página del PDF existente
         for page_num in range(num_pages):
@@ -252,13 +264,19 @@ class Ui_AsignarOrdenDeTrabajo(object):
             can.drawString(175, 545, tipo_servicio)
             can.drawString(150, 520, asignado_a)
             can.drawString(220, 470, fecha)
-            can.drawString(75, 430, trabajo_realizado)
+            
+            # Iterar sobre las líneas del trabajo realizado y agregarlas al lienzo
+            lineas_trabajo_realizado = dividir_texto(trabajo_realizado)
+            y_position = 430
+            for linea in lineas_trabajo_realizado:
+                can.drawString(75, y_position, linea)
+                y_position -= 14  # Incremento fijo para el espaciado entre líneas
+            
             can.drawString(75, 298, verificado_por)
             can.drawString(75, 267, aprobado_por)
             can.drawString(450, 298, fecha)
             can.drawString(450, 267, fecha)
-            
-
+        
             # Guardar el lienzo en el paquete
             can.save()
 

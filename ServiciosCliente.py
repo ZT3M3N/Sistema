@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from SolicitudDeMantenimiento import Ui_MainWindow as Ui_SolicitudMantenimiento
 
 class Ui_ServicioCliente(object):
     def setupUi(self, ServicioCliente):
@@ -32,6 +32,20 @@ class Ui_ServicioCliente(object):
 
         self.retranslateUi(ServicioCliente)
         QtCore.QMetaObject.connectSlotsByName(ServicioCliente)
+        
+        self.main_window = ServicioCliente
+        
+        self.pushButton_4.clicked.connect(lambda:self.abrir_solicitudes_mantenimiento(ServicioCliente))
+        
+    def abrir_solicitudes_mantenimiento(self, main_window):
+        # Crea una instancia de la ventana de VerificarInfraestructura
+        self.solicitudes_mantenimiento_window = QtWidgets.QMainWindow()
+        solicitudes_mantenimiento_ui = Ui_SolicitudMantenimiento()
+        solicitudes_mantenimiento_ui.setupUi(self.solicitudes_mantenimiento_window)
+
+        # Muestra la ventana de VerificarInfraestructura y cierra la ventana actual
+        self.solicitudes_mantenimiento_window.show()
+        main_window.close()
 
     def retranslateUi(self, ServicioCliente):
         _translate = QtCore.QCoreApplication.translate

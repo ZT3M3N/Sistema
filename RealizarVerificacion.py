@@ -139,7 +139,7 @@ class Ui_RealizarVerificacion(object):
         fecha = self.fechador.date().toString("yyyy-MM-dd")
         espacio_revisado = self.obtener_texto_celda(0, 0)
         hallazgos = self.obtener_texto_celda(0, 1)
-        atendido = "No" if self.obtener_estado_atendido(0, 2) == "Si" else "No"
+        atendido = "Si "if self.obtener_estado_atendido(0, 2).lower() == "si" else "No"
 
     # Obtener la ruta y el nombre del archivo mediante un cuadro de diálogo
         options = QFileDialog.Options()
@@ -156,8 +156,7 @@ class Ui_RealizarVerificacion(object):
             host="localhost",
             user="root",
             password="",
-            database="sistema_administrativo"
-    )
+            database="sistema_administrativo")
 
         cursor = connection.cursor()
 
@@ -186,6 +185,19 @@ class Ui_RealizarVerificacion(object):
 
         # Obtener el número de páginas en el PDF existente
         num_pages = len(pdf_reader.pages)
+        
+        def dividir_texto(texto, longitud_maxima=20):
+            palabras = texto.split()
+            lineas = []
+            linea_actual = ''
+            for palabra in palabras:
+                if len(linea_actual) + len(palabra) <= longitud_maxima:
+                    linea_actual += ' ' + palabra
+                else:
+                    lineas.append(linea_actual.strip())
+                    linea_actual = palabra
+            lineas.append(linea_actual.strip())
+            return lineas
 
         # Iterar a través de cada página del PDF existente
         for page_num in range(num_pages):
@@ -197,8 +209,20 @@ class Ui_RealizarVerificacion(object):
             can.drawString(350, 648,departamento)
             can.drawString(350, 630,jefe_area)
             can.drawString(535, 603,fecha)
-            can.drawString(75, 555,espacio_revisado)
-            can.drawString(205, 555,hallazgos)
+            
+            lineas_espacio = dividir_texto(hallazgos)
+            Y_position = 555
+            for linea in lineas_espacio:
+                can.drawString(215, Y_position, linea)
+                Y_position -=14
+            
+            # Iterar sobre las líneas del trabajo realizado y agregarlas al lienzo
+            lineas_hallazgos = dividir_texto(espacio_revisado)
+            y_position = 555
+            for linea in lineas_hallazgos:
+                can.drawString(65, y_position, linea)
+                y_position -= 14  # Incremento fijo para el espaciado entre líneas
+                
             can.drawString(500, 555,atendido)
             can.drawString(300, 135,jefe_departamento)
             can.drawString(300, 110,jefe_area)
@@ -249,7 +273,7 @@ class Ui_RealizarVerificacion(object):
         item = self.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("RealizarVerificacion", "Hallazgos"))
         item = self.tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("RealizarVerificacion", "Atendido"))
+        item.setText(_translate("RealizarVerificacion", "Atendido ( Si / No )"))
         self.boton_regresar.setText(_translate("RealizarVerificacion", "Regresar"))
         self.boton_guardar.setText(_translate("RealizarVerificacion", "Guardar y Generar Reporte"))
         self.label_4.setText(_translate("RealizarVerificacion", "Nombre del jefe(a) del departamento:"))

@@ -20,7 +20,7 @@ class LoginController():
         if user and password:
             user_info = self.user.getUser(user, password)
             if user_info:
-                user_id, username, _, role_id = user_info  # Assuming the user_info structure
+                user_id, username, _, role_id = user_info
                 if role_id == 1:  # Administrator
                     LogIn.hide()
                     self.login.Form = QtWidgets.QMainWindow()
@@ -43,6 +43,6 @@ class LoginController():
                     self.login.Form.show()
                     print("Estás logeado como Cliente")
                 else:
-                    print("Role not supported")  # Handle other roles if needed
+                    print("Role desconocido")
             else:
                 print("No estás logeado")

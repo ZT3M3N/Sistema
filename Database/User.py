@@ -5,7 +5,7 @@ def connection():
         host='localhost',
         user='root',
         password='',
-        port='3306',
+        port=3306,
         db='sistema'
         )
     print("BD conectado exitosamente")

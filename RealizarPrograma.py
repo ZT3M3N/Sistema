@@ -296,6 +296,19 @@ class Ui_RealizarPrograma(object):
 
         # Obtener el número de páginas en el PDF existente
         num_pages = len(pdf_reader.pages)
+        
+        def dividir_texto(texto, longitud_maxima=30):
+            palabras = texto.split()
+            lineas = []
+            linea_actual = ''
+            for palabra in palabras:
+                if len(linea_actual) + len(palabra) <= longitud_maxima:
+                    linea_actual += ' ' + palabra
+                else:
+                    lineas.append(linea_actual.strip())
+                    linea_actual = palabra
+            lineas.append(linea_actual.strip())
+            return lineas
 
         # Iterar a través de cada página del PDF existente
         for page_num in range(num_pages):
@@ -311,7 +324,14 @@ class Ui_RealizarPrograma(object):
             can.drawString(475, 100,elaboro)
             can.drawString(475, 125,aprobo)
             can.drawString(60, 415,numero)
-            can.drawString(90, 415,servicio)
+            
+            # Iterar sobre las líneas del trabajo realizado y agregarlas al lienzo
+            lineas_servicio = dividir_texto(servicio)
+            y_position = 420
+            for linea in lineas_servicio:
+                can.drawString(85, y_position, linea)
+                y_position -= 14
+            
             can.drawString(295, 420,tipo)
             can.drawString(400, 420, Ee)
 
